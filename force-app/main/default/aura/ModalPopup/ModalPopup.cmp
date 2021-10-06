@@ -1,0 +1,28 @@
+<aura:component >
+ <!-- Attriute to show header Text -->
+ <aura:attribute name="headerText" type="String" default="default Header" />
+ <!-- Modal Code -->
+ <div class="demo-only" style="height: 600px;">
+ <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+     <div class="slds-modal__container">
+      <!-- Modal Header -->
+     <header class="slds-modal__header">
+         <lightning:buttonIcon iconName="utility:close" class="slds-modal__close" size="large" variant="bare" alternativeText="Close" onclick="{! c.closeModal }"/>
+         <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.headerText}</h2>
+      </header>
+      <!-- Main Body of Modal -->
+       <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+         <p>This is the body of this lightning modal. The markup code of this lightning modal remains in the seprate lightning component and when 'open modal' button is clicked, it is dynamically called/created and appended in parent's body.</p>
+         <p>By clicking the close/cancel button we are just destroying the child component which will remove the markup of child component from parent body. This modal might sometime take a while to open but its advantage is its re-usable as it can be used in another component too.</p><br/>
+         <p><b>Did you find the dynamic component creation code tricky ???, see alternate methods to call it within a single line, see the link below.</b></p>
+     </div>
+     <!-- Footer of Modal -->
+     <footer class="slds-modal__footer">
+         <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" />
+         <lightning:button variant="brand" label="Cancel" title="Cancel" onclick="{! c.closeModal }" />   
+     </footer>
+     </div>
+ </section>
+ <div class="slds-backdrop slds-backdrop_open"></div>
+ </div>
+</aura:component>

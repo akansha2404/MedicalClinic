@@ -1,0 +1,44 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="BookPatientAppointmentController">
+   <!---to search latest appointment of patient-->
+    <aura:attribute name="appointmentData" type="Appointment__c" /> 
+    <aura:attribute name="searchTerm" type="String" /> 
+    <lightning:card title="Search Patient Appointment" iconName="standard:search">
+        <div class="slds-form slds-p-around_x-small">
+            <lightning:input
+                             label="Search"
+                             variant="label-hidden"
+                             value="{!v.searchTerm}"
+                             placeholder="Search patient appointment by name,phone"
+                             onchange="{!c.onSearchTermChange}"/>
+        </div>
+    </lightning:card>
+    <aura:if isTrue="{!v.searchTerm}">
+        <lightning:card >
+            
+            <aura:set attribute="title">
+                <lightning:icon iconName="standard:household"/>
+                <span class="title">Patient</span>
+            </aura:set>
+            
+            <aura:set attribute="actions">
+            </aura:set>
+            
+            <aura:if isTrue="{!v.appointmentData==undefined}">
+                <div aura:id="selectSection" class="select slds-text-color--weak">
+                    Select a Patient
+                </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.appointmentData!=undefined}">
+                <img src="{!v.appointmentData.Patient__r.Picture__c}"/>
+                <div class="summary">
+                    <p><b class="slds-text-heading_small">Full Name :</b>{!v.appointmentData.Patient__r.Name},&nbsp;{!v.appointmentData.Patient__r.Last_Name__c}</p>
+                    <p><b class="slds-text-heading_small">Contact Number :</b>{!v.appointmentData.Patient__r.Contact_Number__c}</p>
+                    <p><b class="slds-text-heading_small"> Address :</b>{!v.appointmentData.Patient__r.Street__c},&nbsp;{!v.appointmentData.Patient__r.City__c}</p>                                     
+                    <button type="button" class="slds-button slds-button_neutral" onclick="{!c.bookMedication}" >Add Medication</button> 
+                    
+                </div>
+            </aura:if>
+            
+        </lightning:card></aura:if>
+</aura:component>

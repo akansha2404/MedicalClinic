@@ -1,0 +1,41 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="TodayComponentController">
+    <!--to display today date and todays and upcoming appointmenst-->
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <aura:attribute name="timings" type="String[]" /> 
+    <aura:attribute name="today" type="Date" default=""/>
+    <lightning:card >
+        <div class="slds-p-horizontal_medium">
+            <ui:outputDate value="{!v.today}" class="slds-text-heading_large"/>
+        </div>
+        <br></br>
+        <div class="slds-m-vertical_medium">
+            <h1 class="slds-text-heading_small slds-p-horizontal_small"><b>Today's Appointments</b></h1><br></br>
+            <aura:iteration items="{!v.timings}" var="item">
+                <aura:if isTrue="{!item.isTodays}">
+                    <p class="slds-p-horizontal_small">
+                        <a target="_blank" href="{!'/'+item.appointmentId}" onclick="{!c.navigate}">
+                            {!item.timing}
+                        </a>
+                        &nbsp;&nbsp;
+                        <button onclick="{! c.deleteAppointment }" iconName="action:delete" id="{!item.eventId}" >*</button>
+                    </p>
+                    
+                </aura:if>
+            </aura:iteration>
+            <br></br>
+        </div>
+        <div class="slds-m-vertical_medium">
+            <h1 class="slds-text-heading_small slds-p-horizontal_small"><b>Upcoming Appointments</b></h1><br></br>
+            <aura:iteration items="{!v.timings}" var="item">
+                <aura:if isTrue="{!!item.isTodays}">
+                    <p class="slds-p-horizontal_small">
+                        <a target="_blank" href="{!'/'+item.appointmentId}" onclick="{!c.navigate}">
+                            {!item.timing}</a> on <ui:outputDate aura:id="oDate" value="{!item.startDate}" />
+                    </p>
+                </aura:if>
+            </aura:iteration>
+        </div>
+        
+    </lightning:card>
+    
+</aura:component>

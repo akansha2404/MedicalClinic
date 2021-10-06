@@ -1,0 +1,84 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="BookPatientAppointmentController">
+    <!---component to search physician by Specialization and display physician detail and appointment
+ and create appointment and book calendar-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="patient" type="Patient__c" /> 
+    <aura:attribute name="physicianRecord" type="Physician__c" /> 
+    <aura:attribute name="physician" type="Physician__c[]" /> 
+    <aura:attribute name="timings" type="String[]" /> 
+    <aura:attribute name="isModalOpen" type="boolean" />
+    <aura:attribute name="booked" type="boolean" default="false"/>
+    <aura:attribute name="fieldMap" type="Map"/>
+    <aura:attribute name="today" type="Date" />
+    <aura:attribute name="value" type="List" />
+    <lightning:card title="Search Physician" iconName="standard:search">
+        <div class="slds-form slds-p-around_x-small">
+            <lightning:select aura:id="statusPicklist" name="cStat"  onchange="{!c.handleChange}"  label="Specialization">
+                <option value="">--None--</option>
+                <aura:iteration items="{!v.fieldMap}" var="i" indexVar="key">
+                    <option text="{!i.value}" value="{!i.key}" />
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    </lightning:card>
+    <br></br>      
+    <br></br> 
+    <div class="slds-card">
+        <aura:if isTrue="{!v.physician}">
+            <aura:iteration items="{!v.physician}" var="opt">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <span><img src="{!opt.Picture_URL__c}"/></span>
+                    </div>
+                    <div class="slds-col">
+                        <span>  <p><b class="slds-text-heading_small">Full Name :</b>{!opt.Name},&nbsp;{!opt.Last_Name__c}</p>
+                            <p class="slds-text-heading_small"><b>Specializations :</b>{!opt.Specializations__c}</p>
+                            <p class="slds-text-heading_small"><b>Appointment Fees :</b> {!opt.Specialization_Price__c}</p>
+                            <p class="slds-text-heading_small"> <b>Practicing From :</b>{!opt.Practicing_From__c}</p></span>
+                    </div>
+                    <div class="slds-col">
+                        <button type="button" class="slds-button slds-button_neutral" onclick="{!c.bookAppointment}" id="{!opt.Id}">Book Appointment</button> 
+                        <aura:if isTrue="{!v.isModalOpen}">
+                            <!--Modal Box Start-->
+                            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                                <div class="slds-modal__container">
+                                    <!--Modal Box Header Start-->
+                                    <header class="slds-modal__header">
+                                        <h1 class="slds-text-heading--medium">Select Best Time for Appointment</h1>
+                                    </header>
+                                    <!--Modal Box Header End-->
+                                    
+                                    <!--Modal Box Content Start-->
+                                    <div class="slds-modal__content slds-p-around--medium">
+                                        <center><b>Today's Date</b></center>
+                                        <center><b><lightning:input aura:id="expdate"  type="date"  value="{!v.today}"  displayDatePicker="true" onchange="{!c.bookSlot}"/></b></center>
+                                        <br></br>
+                                        <aura:iteration items="{!v.timings}" var="ti">
+                                            <aura:if isTrue="{!ti.isBooked}">
+                                                <lightning:button label="{!ti.Timing}" class="slds-button slds-button_brand" title="{!ti.Timing}" />
+                                                <aura:set attribute="else">
+                                                    <button type="button" class="{!v.booked?'slds-button slds-button_brand':'slds-button slds-button_neutral'}" onclick="{!c.bookAppointmentSlot}" id="{!ti.Timing}">{!ti.Timing}</button> 
+                                                </aura:set>
+                                            </aura:if> 
+                                        </aura:iteration>
+                                    </div>
+                                    <!--Modal Box Content End-->
+                                    
+                                    <!--Modal Box Button Start-->
+                                    <footer class="slds-modal__footer">
+                                        <lightning:button name='No' label='Cancel' onclick='{!c.handleCancel}'/>
+                                    </footer>
+                                    <!--Modal Box Button End-->
+                                </div>
+                            </div>
+                            <div class="slds-backdrop slds-backdrop--open"></div>            
+                        </aura:if>                
+                    </div>
+                </div>
+            </aura:iteration> 
+            <aura:set attribute="else">
+                No Physician Data 
+            </aura:set>           
+        </aura:if>
+    </div>    
+</aura:component>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#000000</headerColor>
+        <logo>medical</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Clinic</label>
+    <navType>Standard</navType>
+    <tabs>Today</tabs>
+    <tabs>Clinic__c</tabs>
+    <tabs>Physician__c</tabs>
+    <tabs>Patient__c</tabs>
+    <tabs>Appointment__c</tabs>
+    <tabs>Medication__c</tabs>
+    <tabs>Prescribed_Test__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Clinic_UtilityBar</utilityBar>
+</CustomApplication>
